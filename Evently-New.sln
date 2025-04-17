@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F0A81D45-4702-4B04-9EBC-173F10DA5458}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{BD71B060-B637-4B6E-A457-9337CFA89EE3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BB5D8171-EF42-48C3-B7ED-31C893B73CE2}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Api", "src\API\Evently.Api\Evently.Api.csproj", "{D703AF7D-B2BE-4D7A-83B1-3BBBBC782E51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{E9C7DF8E-DF4B-4535-B627-1B1D01E2DB0C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events", "Events", "{DD27C703-2275-4A3F-B6DA-568C79A082AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Evently.Modules.Events.Api", "src\Modules\Events\Evently.Modules.Events.Api\Evently.Modules.Events.Api.csproj", "{55048AC7-68B4-4EC3-9521-F52CBC7CC493}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BD71B060-B637-4B6E-A457-9337CFA89EE3} = {F0A81D45-4702-4B04-9EBC-173F10DA5458}
+		{D703AF7D-B2BE-4D7A-83B1-3BBBBC782E51} = {BD71B060-B637-4B6E-A457-9337CFA89EE3}
+		{E9C7DF8E-DF4B-4535-B627-1B1D01E2DB0C} = {F0A81D45-4702-4B04-9EBC-173F10DA5458}
+		{DD27C703-2275-4A3F-B6DA-568C79A082AA} = {E9C7DF8E-DF4B-4535-B627-1B1D01E2DB0C}
+		{55048AC7-68B4-4EC3-9521-F52CBC7CC493} = {DD27C703-2275-4A3F-B6DA-568C79A082AA}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D703AF7D-B2BE-4D7A-83B1-3BBBBC782E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D703AF7D-B2BE-4D7A-83B1-3BBBBC782E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D703AF7D-B2BE-4D7A-83B1-3BBBBC782E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D703AF7D-B2BE-4D7A-83B1-3BBBBC782E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55048AC7-68B4-4EC3-9521-F52CBC7CC493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55048AC7-68B4-4EC3-9521-F52CBC7CC493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55048AC7-68B4-4EC3-9521-F52CBC7CC493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55048AC7-68B4-4EC3-9521-F52CBC7CC493}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

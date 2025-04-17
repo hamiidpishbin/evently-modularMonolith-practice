@@ -1,0 +1,30 @@
+﻿services:
+  evently.api:
+    image: evently.api
+    container_name: Evently.Api
+    build:
+      context: .
+      dockerfile: src/API/Evently.Api/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__Database=Host=evently.database;Port=5432;Database=evently;Username=postgres;Password=postgres;Include Error detail=true
+    ports:
+      - "6000:8080"
+    depends_on:
+      - evently.database
+    volumes:
+      - ~/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets:ro
+      - ~/ASP.NET/Https:/home/app/.aspnet/https:ro
+  
+  evently.database:
+    image: postgres:latest
+    container_name: Evently.Database
+    environment:
+      - POSTGRES_DB=evently
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./.containers/db:/var/lib/postgres/data
