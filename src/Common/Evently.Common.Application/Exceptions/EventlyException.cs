@@ -1,17 +1,14 @@
-﻿using System.Runtime.InteropServices.JavaScript;
+﻿using Evently.Common.Domain;
 
 namespace Evently.Common.Application.Exceptions;
 
-public sealed class EventlyException : Exception
+public sealed class EventlyException(
+	string requestName,
+	Error? error = null,
+	Exception? innerException = null)
+	: Exception("Application exception", innerException)
 {
-    public EventlyException(string requestName, JSType.Error? error = default, Exception? innerException = default)
-        : base("Application exception", innerException)
-    {
-        RequestName = requestName;
-        Error = error;
-    }
+	public string RequestName { get; } = requestName;
 
-    public string RequestName { get; }
-
-    public JSType.Error? Error { get; }
+	public Error? Error { get; } = error;
 }

@@ -1,4 +1,5 @@
 using Evently.Api.Extensions;
+using Evently.Api.Middleware;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
 using Evently.Modules.Events.Infrastructure;
@@ -12,6 +13,9 @@ builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configu
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 builder.Configuration.AddModuleConfigurations(["events"]);
 
@@ -39,5 +43,7 @@ EventsModule.MapEndpoints(app);
 app.UseHttpsRedirection();
 
 app.UseSerilogRequestLogging();
+
+app.UseExceptionHandler();
 
 app.Run();
