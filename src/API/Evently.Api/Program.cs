@@ -1,4 +1,6 @@
 using Evently.Api.Extensions;
+using Evently.Common.Application;
+using Evently.Common.Infrastructure;
 using Evently.Modules.Events.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddApplication([Evently.Modules.Events.Application.AssemblyReference.Assembly]);
+
+builder.Services.AddInfrastructure(builder.Configuration.GetConnectionString("Database")!); 
 
 builder.Services.AddEventsModule(builder.Configuration);
 
