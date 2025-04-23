@@ -2,6 +2,7 @@ using Evently.Api.Extensions;
 using Evently.Api.Middleware;
 using Evently.Common.Application;
 using Evently.Common.Infrastructure;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Infrastructure;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -47,8 +48,6 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () => "Hello World!");
 
-EventsModule.MapEndpoints(app);
-
 app.MapHealthChecks("health",
 	new HealthCheckOptions()
 	{
@@ -60,5 +59,7 @@ app.UseHttpsRedirection();
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
+
+app.MapEndpoints();
 
 app.Run();

@@ -1,6 +1,7 @@
 ﻿using Evently.Common.Domain;
+using Evently.Common.Presentation.ApiResults;
+using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Categories.UpdateCategory;
-using Evently.Modules.Events.Presentation.ApiResults;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -8,21 +9,22 @@ using Microsoft.AspNetCore.Routing;
 
 namespace Evently.Modules.Events.Presentation.Categories;
 
-internal static class UpdateCategory
+internal class UpdateCategory : IEndpoint
 {
-    public static void MapEndpoint(IEndpointRouteBuilder app)
-    {
-        app.MapPut("categories/{id}", async (Guid id, Request request, ISender sender) =>
-        {
-            Result result = await sender.Send(new UpdateCategoryCommand(id, request.Name));
+	public void MapEndpoint(IEndpointRouteBuilder app)
+	{
+		app.MapPut("categories/{id}",
+				async (Guid id, Request request, ISender sender) =>
+				{
+					var result = await sender.Send(new UpdateCategoryCommand(id, request.Name));
 
-            return result.Match(() => Results.Ok(), ApiResults.ApiResults.Problem);
-        })
-        .WithTags(Tags.Categories);
-    }
+					return result.Match(() => Results.Ok(), ApiResults.Problem);
+				})
+			.WithTags(Tags.Categories);
+	}
 
-    internal sealed class Request
-    {
-        public string Name { get; init; }
-    }
+	internal sealed class Request
+	{
+		public string Name { get; init; }
+	}
 }
