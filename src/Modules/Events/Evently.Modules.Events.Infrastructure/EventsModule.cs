@@ -1,5 +1,6 @@
 ﻿using Evently.Common.Application.Clock;
 using Evently.Common.Application.Data;
+using Evently.Common.Infrastructure.Outbox;
 using Evently.Common.Presentation.Endpoints;
 using Evently.Modules.Events.Application.Abstractions.Data;
 using Evently.Modules.Events.Domain.Categories;
@@ -38,13 +39,13 @@ public static class EventsModule
 
 	private static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
 	{
-		services.AddDbContext<EventsDbContext>(options =>
+		services.AddDbContext<EventsDbContext>((serviceProvider, options) =>
 			options
 				.UseNpgsql(
 					configuration.GetConnectionString("Database")!,
 					npgsqlOptions => npgsqlOptions
 						.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Events))
-				.AddInterceptors());
+				.AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>()));
 
 		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<EventsDbContext>());
 
