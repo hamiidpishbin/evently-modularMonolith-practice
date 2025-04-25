@@ -32,8 +32,7 @@ public static class UsersModule
                     configuration.GetConnectionString("Database"),
                     npgsqlOptions => npgsqlOptions
                         .MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Users))
-                .AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>())
-                .UseSnakeCaseNamingConvention());
+                .AddInterceptors(sp.GetRequiredService<PublishDomainEventsInterceptor>()));
 
         services.AddScoped<IUserRepository, UserRepository>();
 
