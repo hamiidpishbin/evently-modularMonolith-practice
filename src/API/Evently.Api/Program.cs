@@ -29,7 +29,10 @@ builder.Services.AddApplication([Evently.Modules.Events.Application.AssemblyRefe
 var databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis")!;
 
-builder.Services.AddInfrastructure(databaseConnectionString, redisConnectionString);
+builder.Services.AddInfrastructure(
+	[TicketingModule.ConfigureConsumers],
+	databaseConnectionString, 
+	redisConnectionString);
 
 builder.Services.AddHealthChecks()
 	.AddNpgSql(databaseConnectionString)

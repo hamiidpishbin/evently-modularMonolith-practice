@@ -14,4 +14,8 @@
       <ProjectReference Include="..\Evently.Common.Domain\Evently.Common.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="MassTransit.Abstractions" Version="8.4.0" />
+    </ItemGroup>
+
 </Project>
