@@ -24,7 +24,11 @@ builder.Services.AddProblemDetails();
 
 builder.Configuration.AddModuleConfigurations(["events", "users", "ticketing"]);
 
-builder.Services.AddApplication([Evently.Modules.Events.Application.AssemblyReference.Assembly]);
+builder.Services.AddApplication([
+	Evently.Modules.Events.Application.AssemblyReference.Assembly,
+	Evently.Modules.Users.Application.AssemblyReference.Assembly,
+	Evently.Modules.Ticketing.Application.AssemblyReference.Assembly
+]);
 
 var databaseConnectionString = builder.Configuration.GetConnectionString("Database")!;
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis")!;
