@@ -34,6 +34,7 @@ internal class GetCategories : IEndpoint
 
 					return result.Match(Results.Ok, ApiResults.Problem);
 				})
+			.RequireAuthorization()
 			.WithTags(Tags.Categories);
 	}
 }

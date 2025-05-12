@@ -10,7 +10,7 @@
       - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__Database=Host=evently.database;Port=5432;Database=evently;Username=postgres;Password=postgres;Include Error detail=true
     ports:
-      - "6000:8080"
+      - "8000:8080"
     depends_on:
       - evently.database
     volumes:
@@ -44,3 +44,17 @@
     restart: always
     ports:
       - "6379:6379"
+        
+  evently.identity:
+    image: quay.io/keycloak/keycloak:26.2.2
+    container_name: Evently.Identity
+    command:
+      - start-dev
+    environment:
+      - KC_BOOTSTRAP_ADMIN_USERNAME=admin
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=admin
+    volumes:
+      - ./.containers/identity:/opt/keycloak/data
+      - ./.files:/opt/keycloak/data/import
+    ports:
+      - "18080:8080"
