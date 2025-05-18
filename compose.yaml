@@ -38,7 +38,8 @@
       - "8000:8080"
       - "5005:5005"
     depends_on:
-      - evently.database
+      evently.database:
+        condition: service_healthy
     volumes:
       - ~/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets:ro
       - ~/ASP.NET/Https:/home/app/.aspnet/https:ro
@@ -54,6 +55,11 @@
       - "5432:5432"
     volumes:
       - ./.containers/db:/var/lib/postgres/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d evently" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
       
   evently.seq:
     image: datalust/seq:latest
