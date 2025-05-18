@@ -38,7 +38,8 @@ public static class EventsModule
 					configuration.GetConnectionString("Database")!,
 					npgsqlOptions => npgsqlOptions
 						.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Events))
-				.AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>()));
+				.AddInterceptors(serviceProvider.GetRequiredService<PublishDomainEventsInterceptor>())
+				.UseSnakeCaseNamingConvention());
 
 		services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<EventsDbContext>());
 

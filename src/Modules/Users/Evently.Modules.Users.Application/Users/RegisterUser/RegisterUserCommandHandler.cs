@@ -3,6 +3,8 @@ using Evently.Common.Domain;
 using Evently.Modules.Users.Application.Abstractions.Data;
 using Evently.Modules.Users.Application.Abstractions.Identity;
 using Evently.Modules.Users.Domain.Users;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Evently.Modules.Users.Application.Users.RegisterUser;
 
@@ -19,14 +21,14 @@ internal sealed class RegisterUserCommandHandler(
 				request.Email,
 				request.Password,
 				request.FirstName,
-				request.LastName), 
+				request.LastName),
 			cancellationToken);
-
+		
 		if (result.IsFailure)
 		{
 			return Result.Failure<Guid>(result.Error);
 		}
-		
+
 		var user = User.Create(request.Email, request.FirstName, request.LastName, result.Value);
 
 		userRepository.Insert(user);

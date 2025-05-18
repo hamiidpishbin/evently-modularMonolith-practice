@@ -1,16 +1,42 @@
 ﻿services:
   evently.api:
     image: evently.api
-    container_name: Evently.Api
+    container_name: evently.api
     build:
       context: .
       dockerfile: src/API/Evently.Api/Dockerfile
+      args:
+        - BUILD_CONFIGURATION=Debug
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
       - ConnectionStrings__Database=Host=evently.database;Port=5432;Database=evently;Username=postgres;Password=postgres;Include Error detail=true
+      - DOTNET_USE_POLLING_FILE_WATCHER=1
+      - ASPNETCORE_LOGGING__CONSOLE__DISABLECOLORS=true
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+      - ConnectionStrings__Cache=evently.redis:6379
+      # Authentication settings
+      - Authentication__Audience=account
+      - Authentication__TokenValidationParameters__ValidIssuers__0=http://evently.identity:8080/realms/evently
+      - Authentication__TokenValidationParameters__ValidIssuers__1=http://localhost:18080/realms/evently
+      - Authentication__MetadataAddress=http://evently.identity:8080/realms/evently/.well-known/openid-configuration
+      - Authentication__RequireHttpsMetadata=false
+      # KeyCloak settings
+      - KeyCloak__HealthUrl=http://evently.identity:8080/health/
+      # Serilog WriteTo settings
+      - Serilog__WriteTo__0__Name=Console
+      - Serilog__WriteTo__1__Name=Seq
+      - Serilog__WriteTo__1__Args__serverUrl=http://evently.seq:5341
+      # Users KeyCloak settings
+      - Users__KeyCloak__AdminUrl=http://evently.identity:8080/admin/realms/evently/
+      - Users__KeyCloak__TokenUrl=http://evently.identity:8080/realms/evently/protocol/openid-connect/token
+      - Users__KeyCloak__ConfidentialClientId=evently-confidential-client
+      - Users__KeyCloak__ConfidentialClientSecret=6WvroDlPJ8npIbiG1dGwXLhzxUKoXUKk
+      - Users__KeyCloak__PublicClientId=evently-public-client
     ports:
       - "8000:8080"
+      - "5005:5005"
     depends_on:
       - evently.database
     volumes:
@@ -19,7 +45,7 @@
   
   evently.database:
     image: postgres:latest
-    container_name: Evently.Database
+    container_name: evently.database
     environment:
       - POSTGRES_DB=evently
       - POSTGRES_USER=postgres
@@ -31,7 +57,7 @@
       
   evently.seq:
     image: datalust/seq:latest
-    container_name: Evently.Seq
+    container_name: evently.seq
     environment:
       - ACCEPT_EULA=Y
     ports:
@@ -40,14 +66,14 @@
   
   evently.redis:
     image: redis:latest
-    container_name: Evently.Redis
+    container_name: evently.redis
     restart: always
     ports:
       - "6379:6379"
         
   evently.identity:
     image: quay.io/keycloak/keycloak:26.2.2
-    container_name: Evently.Identity
+    container_name: evently.identity
     command:
       - start-dev
     environment:
